@@ -68,10 +68,5 @@ sudo chown "live" -cR /home/live/.config
 # The Live image user is not removed when installed on disk
 sudo sed -i '/\/bin\/bash/a userdel live' /usr/libexec/fixconkeys-part2
 
-sudo rm /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
-sudo rm /usr/share/xsessions/xfce.desktop /usr/share/xsessions/xubuntu.desktop
-[[ -f /usr/share/backgrounds/xfce/xfce-x.svg ]] && sudo mv /usr/share/backgrounds/xfce/xfce-x.svg /usr/share/backgrounds/xfce/xfce-uglyrat.svg
-sudo ln -sf /usr/share/backgrounds/xfce/rolling-rhino-default.png /usr/share/backgrounds/xfce/xfce-x.svg
-
 sudo apt-get clean
 sudo update-initramfs -c -k all
