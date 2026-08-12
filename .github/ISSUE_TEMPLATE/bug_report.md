@@ -7,8 +7,8 @@ assignees: cat-master21, oklopfer
 
 ---
 
-**Rhino Linux Version:**
-A numerical version for Rhino Linux. Example: `2023.1`, - Version number can be found by running `neofetch` (preinstalled) or with the "Your System" application.
+**Akari Linux Version:**
+A numerical version for Rhino Linux. Example: `26.04`, - Version number can be found by running `cat /etc/os-release`
 
 **Platform:**
 [CPU Architecture / Device]
