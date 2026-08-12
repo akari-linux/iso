@@ -1,0 +1,8 @@
+#!/bin/sh
+# Description: Set up live user
+
+# Create user
+sudo groupadd live
+sudo useradd -rm -d /home/live -g root -s /bin/bash -u 1001 live
+sudo adduser live sudo
+echo '%sudo ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers

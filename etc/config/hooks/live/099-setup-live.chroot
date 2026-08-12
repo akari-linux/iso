@@ -1,0 +1,77 @@
+#!/bin/bash
+# Description: Set up live
+
+sudo sed -i 's/%sudo ALL=(ALL) NOPASSWD:ALL//' /etc/sudoers
+
+mkdir -p /home/live/Desktop/
+
+echo '[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Install Akari Linux
+Name[ca]=Instal·lar Akari Linux
+Name[da]=Installer Akari Linux
+Name[de]=Akari Linux installieren
+Name[es]=Instalar Akari Linux
+Name[fr]=Installer Akari Linux
+Name[it]=Installa Akari Linux
+Name[no]=Installer Akari Linux
+Name[pl]=Zainstaluj Akari Linux
+Name[pt]=Instalar o Akari Linux
+Name[pt_BR]=Instalar Akari Linux
+GenericName=Install Akari Linux
+GenericName[ar]=تنصيب لوبينتو
+GenericName[ca]=Instal·lar Akari Linux
+GenericName[da]=Installer Akari Linux
+GenericName[de]=Akari Linux installieren
+GenericName[es]=Instalar Akari Linux
+GenericName[fr]=Installer Akari Linux
+GenericName[it]=Installa Akari Linux
+GenericName[no]=Installer Akari Linux
+GenericName[pl]=Zainstaluj Akari Linux
+GenericName[pt]=Instalar o Akari Linux
+GenericName[pt_BR]=Instalar Akari Linux
+Exec=sudo -E calamares -D6
+Comment=Calamares — System Installer
+Comment[ar]=الحبار — منصب النظام
+Comment[ca]=Calamares — Instal·lador del Sistema
+Comment[da]=Calamares - System installation
+Comment[de]=Calamares — System Installer
+Comment[es]=Calamares — Instalador del Sistema
+Comment[fr]=Calamares  — Installateur de votre system
+Comment[it]=Calamares — Installatore del Sistema
+Comment[no]=Calamares — System installerer
+Comment[pl]=Calamares — Instalator systemu
+Comment[pt]=Calamares — Instalador do Sistema
+Comment[pt_BR]=Calamares — Instalador do sistema
+Icon=/etc/calamares/branding/rhino/rhino-calamares.png
+Terminal=false
+StartupNotify=true
+Categories=Qt;System;
+Keywords=installer;calamares;system;' | tee -a /usr/share/applications/calamares.desktop >/dev/null
+sudo chmod 755 /usr/share/applications/calamares.desktop
+sudo cp /usr/share/applications/calamares.desktop /home/live/Desktop/calamares.desktop
+sudo chown "live" -cR /home/live/Desktop/calamares.desktop
+
+if [ $(dpkg --print-architecture) = arm64 ]; then
+    GNU="aarch"
+else
+    GNU="x86_"
+fi
+
+mkdir /home/live/.config/autostart/
+
+sudo chown "live" -cR /home/live
+sudo chown "live" -cR /home/live/.config
+
+# TODO: This should be seperate from this chroot.
+# The Live image user is not removed when installed on disk
+sudo sed -i '/\/bin\/bash/a userdel live' /usr/libexec/fixconkeys-part2
+
+sudo rm /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+sudo rm /usr/share/xsessions/xfce.desktop /usr/share/xsessions/xubuntu.desktop
+[[ -f /usr/share/backgrounds/xfce/xfce-x.svg ]] && sudo mv /usr/share/backgrounds/xfce/xfce-x.svg /usr/share/backgrounds/xfce/xfce-uglyrat.svg
+sudo ln -sf /usr/share/backgrounds/xfce/rolling-rhino-default.png /usr/share/backgrounds/xfce/xfce-x.svg
+
+sudo apt-get clean
+sudo update-initramfs -c -k all

@@ -11,7 +11,6 @@ echo 'rm -rf /root/snap' >>/var/lib/dpkg/info/snapd.postrm
 
 echo "P: Begin executing remove-blacklisted-packages chroot hook..."
 
-sudo apt-get install qml-module-qtquick2 qml-module-qtquick-window2 -q -y
 sudo dpkg --force-depends --remove snapd-seed-glue
 
 apt-get autoremove --purge -f -q -y \
@@ -21,18 +20,10 @@ apt-get autoremove --purge -f -q -y \
     snapd \
     update-manager \
     update-notifier \
-    gparted \
-    sudo-rs
-
-apt-get install coreutils-from-gnu coreutils-from-uutils- --allow-remove-essential -q -y
+    gparted
 
 rm -rf ../ubuntu-seeds ../platform
 
 # Fake desktop entries to prevent some applications from displaying
 mkdir -p "/etc/skel/.local/share/applications" "/root"
-touch /etc/skel/.local/share/applications/software-properties-drivers.desktop
-touch /etc/skel/.local/share/applications/gnome-session-properties.desktop
-touch /etc/skel/.local/share/applications/nm-connection-editor.desktop
-touch /etc/skel/.local/share/applications/gnome-language-selector.desktop
-touch /etc/skel/.local/share/applications/gnome-printers-panel.desktop
 touch /etc/skel/.local/share/applications/calamares.desktop
