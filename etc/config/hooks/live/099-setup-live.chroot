@@ -68,5 +68,7 @@ sudo chown "live" -cR /home/live/.config
 # The Live image user is not removed when installed on disk
 sudo sed -i '/\/bin\/bash/a userdel live' /usr/libexec/fixconkeys-part2
 
+sudo apt-get install kde-standard -f -q -y
+
 sudo apt-get clean
 sudo update-initramfs -c -k all
