@@ -5,6 +5,12 @@ sudo sed -i 's/%sudo ALL=(ALL) NOPASSWD:ALL//' /etc/sudoers
 
 mkdir -p /home/live/Desktop/
 
+sudo apt-get install kde-standard akari-standard -f -q -y
+
+# Plymouth theme
+sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/akari-plymouth/akari-plymouth.plymouth 100
+sudo update-alternatives --set default.plymouth /usr/share/plymouth/themes/akari-plymouth/akari-plymouth.plymouth
+
 echo '[Desktop Entry]
 Type=Application
 Version=1.0
@@ -67,8 +73,6 @@ sudo chown "live" -cR /home/live/.config
 # TODO: This should be seperate from this chroot.
 # The Live image user is not removed when installed on disk
 sudo sed -i '/\/bin\/bash/a userdel live' /usr/libexec/fixconkeys-part2
-
-sudo apt-get install kde-standard -f -q -y
 
 sudo apt-get clean
 sudo update-initramfs -c -k all
